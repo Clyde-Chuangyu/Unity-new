@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerJumpState : PlayerState
@@ -13,6 +10,9 @@ public class PlayerJumpState : PlayerState
     {
         base.Enter();
         player.SetVelocity(xInput * player.moveSpeed, player.jumpForce);
+        
+        // 播放跳跃音效
+        AudioManager.Instance?.PlayJumpSound();
     }
 
     public override void Exit()

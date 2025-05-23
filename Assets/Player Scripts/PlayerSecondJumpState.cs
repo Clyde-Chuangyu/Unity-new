@@ -13,6 +13,9 @@ public class PlayerSecondJumpState : PlayerState
         base.Enter();
         player.jumpTimes = 0;
         player.SetVelocity(xInput * player.moveSpeed, player.jumpForce);
+        
+        // 播放二段跳音效
+        AudioManager.Instance?.PlaySecondJumpSound();
     }
 
     public override void Exit()

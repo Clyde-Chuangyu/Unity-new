@@ -11,8 +11,11 @@ public class PlayerCounterAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        stateTimer=player.counterAttackDuration;
-        player.animator.SetBool("SuccessfuCounterAttack",false);
+        stateTimer = player.counterAttackDuration;
+        player.animator.SetBool("SuccessfuCounterAttack", false);
+        
+        // 播放反击音效
+        AudioManager.Instance?.PlayCounterAttackSound();
     }
 
     public override void Exit()
@@ -23,7 +26,7 @@ public class PlayerCounterAttackState : PlayerState
     public override void Update()
     {
         base.Update();
-        player.SetVelocity(0,rb.velocity.y);
+        player.SetVelocity(0, rb.velocity.y);
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackOccur.position, player.attackOccurRedius);
         foreach (var hit in colliders)
         {

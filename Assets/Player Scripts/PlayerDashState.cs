@@ -11,22 +11,24 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        stateTimer = player.dashDuration;        
+        stateTimer = player.dashDuration;
+        
+        // 播放冲刺音效
+        AudioManager.Instance?.PlayDashSound();
     }
 
     public override void Exit()
     {
         base.Exit();
         player.dashTimer = player.dashCD;
-        player.SetVelocity(xInput * player.moveSpeed * player.facingDir, rb.velocity.y);        
+        player.SetVelocity(xInput * player.moveSpeed * player.facingDir, rb.velocity.y);
     }
 
     public override void Update()
     {
         base.Update();
         player.SetVelocity(player.dashSpeed * player.dashDir, 0);
-        if (stateTimer < 0)        
+        if (stateTimer < 0)
             stateMachine.ChangeState(player.IdleState);
-        
     }
 }

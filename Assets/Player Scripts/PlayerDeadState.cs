@@ -11,6 +11,9 @@ public class PlayerDeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        
+        // 播放死亡音效
+        AudioManager.Instance?.PlayDeathSound();
     }
 
     public override void Exit()

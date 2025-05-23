@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWallJumpState : PlayerState
@@ -12,20 +10,22 @@ public class PlayerWallJumpState : PlayerState
     {
         base.Enter();
         stateTimer = 0.25f;
-        player.SetVelocity(-player.facingDir*player.moveSpeed,player.jumpForce);
+        player.SetVelocity(-player.facingDir * player.moveSpeed, player.jumpForce);
+        
+        // 播放墙跳音效
+        AudioManager.Instance?.PlayWallJumpSound();
     }
 
     public override void Exit()
     {
         base.Exit();
-        
     }
 
     public override void Update()
     {
         base.Update();
-        if (stateTimer<0)        
-            player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);        
+        if (stateTimer < 0)
+            player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
         if (player.IsGroundDetected())
             stateMachine.ChangeState(player.IdleState);
         if (player.IsWallDetected() && xInput == player.facingDir)
