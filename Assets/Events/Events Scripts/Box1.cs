@@ -1,20 +1,26 @@
 
-
-public class Box1 : Chest
-{
-    protected override void Start()
-    {
+public class Box1 : Chest 
+{     
+    protected override void Start()     
+    {         
         base.Start();
-    }
-    protected override void Update()
-    {
-        base.Update();
-    }
-    protected override void Effect()
-    {
+        // 不要在这里播放音效
+    }     
+    
+    protected override void Update()     
+    {         
+        base.Update();     
+    }     
+    
+    protected override void Effect()     
+    {         
         base.Effect();
-        Timer = 5f;
-        player.canUseSkill = true;
-        tip.SetActive(true);
-    }
+        
+        // 在箱子被打开时播放音效
+        AudioManager.Instance?.PlayboxSound();
+        
+        Timer = 5f;         
+        player.canUseSkill = true;         
+        tip.SetActive(true);     
+    } 
 }

@@ -25,10 +25,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip hitTakenSound;
     [SerializeField] private AudioClip deathSound;
 
-    [Header("技能音效")]
+    [Header("其他音效")]
     [SerializeField] private AudioClip swordThrowSound;
     [SerializeField] private AudioClip swordCatchSound;
     [SerializeField] private AudioClip swordAimSound;
+
+    [SerializeField] private AudioClip boxSound;
 
     [Header("背景音乐")]
     [SerializeField] private AudioClip backgroundMusic;
@@ -139,14 +141,22 @@ public class AudioManager : MonoBehaviour
         PlaySFX(wallJumpSound);
     }
 
-    public void PlayWalkSound()
+  public void PlayWalkSound()
+{
+    if (!isWalking)
     {
-        if (!isWalking)
+        isWalking = true;
+        
+        // 直接播放，不依赖条件检查
+        if (walkSound != null && sfxSource != null)
         {
-            isWalking = true;
-            PlayLoopingSFX(walkSound, 0.6f);
+            sfxSource.clip = walkSound;
+            sfxSource.volume = 0.6f * sfxVolume * masterVolume;
+            sfxSource.loop = true;
+            sfxSource.Play();
         }
     }
+}
 
     public void StopWalkSound()
     {
@@ -211,6 +221,11 @@ public class AudioManager : MonoBehaviour
     public void PlaySwordAimSound()
     {
         PlaySFX(swordAimSound);
+    }
+
+        public void PlayboxSound()
+    {
+        PlaySFX(boxSound);
     }
     #endregion
 
