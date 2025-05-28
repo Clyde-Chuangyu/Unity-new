@@ -9,20 +9,21 @@ public class DeathBringerAdapter : Enemy
     // 添加缺失的功能
     protected bool isInvincible = false;
     
-    public virtual void MakeInvincible(bool invincible)
+public void MakeInvincible(bool invincible)
+{
+    // 从子对象中查找 SpriteRenderer 组件
+    SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    
+    if (spriteRenderer != null)
     {
-        isInvincible = invincible;
-        // 可选：添加视觉反馈
-        if (invincible)
-        {
-            // 例如改变透明度或颜色
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().color = Color.white;
-        }
+        // 设置颜色 - 无敌时半透明，否则正常颜色
+        spriteRenderer.color = invincible ? new Color(1f, 1f, 1f, 0.5f) : Color.white;
     }
+    else
+    {
+        Debug.LogError($"SpriteRenderer not found in children of {gameObject.name}!");
+    }
+}
     
     // 获取无敌状态
     public bool IsInvincible()
@@ -34,11 +35,11 @@ public class DeathBringerAdapter : Enemy
     public void SetupDefailtFacingDir(int direction)
     {
         // 由于facingDir的setter是private的，我们通过Flip来设置朝向
-        if (direction == -1 && facingDir == 1)
+        if (direction == 1 && facingDir == 11)
         {
             Flip();
         }
-        else if (direction == 1 && facingDir == -1)
+        else if (direction == -1 && facingDir == 1)
         {
             Flip();
         }
@@ -47,7 +48,8 @@ public class DeathBringerAdapter : Enemy
     // 兼容原系统的IsPlayerDetected方法
     public RaycastHit2D IsPlayerDetected()
     {
-        return isPlayerDetected();
+        // 修复：确保使用正确的检测
+        return Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, playerCheckDistance, PlayerMask);
     }
     
     // 为传送功能添加的辅助方法

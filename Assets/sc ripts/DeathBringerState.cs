@@ -30,8 +30,9 @@ public class DeathBringerIdleState : EnemyState
         if (Vector2.Distance(player.transform.position, enemy.transform.position) < 7)
             enemy.bossFightBegun = true;
 
-        if (Input.GetKeyDown(KeyCode.V))
-            stateMachine.ChangeState(enemy.teleportState);
+        // 调试用 - 移除这行
+        // if (Input.GetKeyDown(KeyCode.V))
+        //     stateMachine.ChangeState(enemy.teleportState);
 
         if (stateTimer < 0 && enemy.bossFightBegun)
             stateMachine.ChangeState(enemy.battleState);
@@ -54,44 +55,64 @@ public class DeathBringerBattleState : EnemyState
     {
         base.Enter();
         player = PlayerManager.instance.player.transform;
+        
+        // 添加调试信息
+        Debug.Log("DeathBringer entered Battle State");
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (enemy.IsPlayerDetected())
+        var playerDetected = enemy.IsPlayerDetected();
+        
+        if (playerDetected)
         {
             stateTimer = enemy.battleTime;
 
-            if (enemy.IsPlayerDetected().distance < enemy.attackCheckDistance) // 使用attackCheckDistance
+            // 检查是否在攻击范围内
+            if (playerDetected.distance < enemy.attackCheckDistance)
             {
+                Debug.Log($"Player in attack range: {playerDetected.distance} < {enemy.attackCheckDistance}");
+                
                 if (CanAttack())
+                {
+                    Debug.Log("Changing to Attack State");
                     stateMachine.ChangeState(enemy.attackState);
+                    return;
+                }
                 else
+                {
+                    Debug.Log("Cannot attack yet, going to Idle");
                     stateMachine.ChangeState(enemy.idleState);
+                    return;
+                }
             }
         }
 
+        // 决定移动方向
         if (player.position.x > enemy.transform.position.x)
             moveDir = 1;
         else if (player.position.x < enemy.transform.position.x)
             moveDir = -1;
 
-        if (enemy.IsPlayerDetected() && enemy.IsPlayerDetected().distance < enemy.attackCheckDistance - .1f)
+        // 如果已经很近了就不要移动
+        if (playerDetected && playerDetected.distance < enemy.attackCheckDistance - .1f)
             return;
 
+        // 移动
         enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
     }
 
     public override void Exit()
     {
         base.Exit();
+        Debug.Log("DeathBringer exited Battle State");
     }
 
     private bool CanAttack()
     {
-        if (Time.time >= enemy.lastTimeAttack + enemy.attackCD) // 使用attackCD代替attackCooldown
+        if (Time.time >= enemy.lastTimeAttack + enemy.attackCD)
         {
             enemy.lastTimeAttack = Time.time;
             return true;

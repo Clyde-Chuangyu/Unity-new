@@ -33,7 +33,8 @@ public class Enemy_DeathBringer : DeathBringerAdapter
     {
         base.Awake();
 
-        SetupDefailtFacingDir(-1);
+        // 修改初始朝向为1（右）而不是-1（左）
+        SetupDefailtFacingDir(1);
 
         // 初始化状态
         idleState = new DeathBringerIdleState(this, stateMachine, "Idle", this);
@@ -175,6 +176,19 @@ public class Enemy_DeathBringer : DeathBringerAdapter
     public void AnimationTriggerMakeVisible()
     {
         MakeTransparent(false);
+    }
+    
+    // 如果需要反击系统，可以实现这些方法
+    public void OpenCounterAttackWindow()
+    {
+        // 可以在这里实现反击窗口逻辑
+        base.OpenCounterAttackWindow();
+    }
+    
+    public void CloseCounterAttackWindow()
+    {
+        // 关闭反击窗口
+        base.CloseCounterAttackWindow();
     }
     #endregion
 }
