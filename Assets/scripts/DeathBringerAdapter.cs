@@ -3,27 +3,41 @@ using UnityEngine;
 // 适配层 - 桥接两个系统的差异
 public class DeathBringerAdapter : Enemy
 {
+    // 缓存 SpriteRenderer 引用以提高性能
+    private SpriteRenderer cachedSpriteRenderer;
+    
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        // 在初始化时缓存 SpriteRenderer 引用
+        cachedSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (cachedSpriteRenderer == null)
+        {
+            Debug.LogError($"SpriteRenderer not found in children of {gameObject.name}! Make sure it exists in the 'animator' child object.");
+        }
+    }
+    
     // API适配方法
     public void SetZeroVelocity() => ZeroVelocity();
     
     // 添加缺失的功能
     protected bool isInvincible = false;
     
-public void MakeInvincible(bool invincible)
-{
-    // 从子对象中查找 SpriteRenderer 组件
-    SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-    
-    if (spriteRenderer != null)
+    public void MakeInvincible(bool invincible)
     {
-        // 设置颜色 - 无敌时半透明，否则正常颜色
-        spriteRenderer.color = invincible ? new Color(1f, 1f, 1f, 0.5f) : Color.white;
+        isInvincible = invincible;
+        
+        if (cachedSpriteRenderer != null)
+        {
+            // 设置颜色 - 无敌时半透明，否则正常颜色
+            cachedSpriteRenderer.color = invincible ? new Color(1f, 1f, 1f, 0.5f) : Color.white;
+        }
+        else
+        {
+            Debug.LogError($"SpriteRenderer not found in children of {gameObject.name}!");
+        }
     }
-    else
-    {
-        Debug.LogError($"SpriteRenderer not found in children of {gameObject.name}!");
-    }
-}
     
     // 获取无敌状态
     public bool IsInvincible()
@@ -35,7 +49,7 @@ public void MakeInvincible(bool invincible)
     public void SetupDefailtFacingDir(int direction)
     {
         // 由于facingDir的setter是private的，我们通过Flip来设置朝向
-        if (direction == 1 && facingDir == 11)
+        if (direction == 1 && facingDir == -1)
         {
             Flip();
         }
@@ -55,14 +69,20 @@ public void MakeInvincible(bool invincible)
     // 为传送功能添加的辅助方法
     public void MakeTransparent(bool transparent)
     {
-        var spriteRenderer = GetComponent<SpriteRenderer>();
-        if (transparent)
+        if (cachedSpriteRenderer != null)
         {
-            spriteRenderer.color = new Color(1, 1, 1, 0);
+            if (transparent)
+            {
+                cachedSpriteRenderer.color = new Color(1, 1, 1, 0);
+            }
+            else
+            {
+                cachedSpriteRenderer.color = new Color(1, 1, 1, 1);
+            }
         }
         else
         {
-            spriteRenderer.color = new Color(1, 1, 1, 1);
+            Debug.LogError($"SpriteRenderer not found in children of {gameObject.name}!");
         }
     }
 }
