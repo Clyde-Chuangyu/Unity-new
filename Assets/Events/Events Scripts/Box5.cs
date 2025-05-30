@@ -17,7 +17,9 @@ public class Box5 : Chest
         base.Effect();
          // 在箱子被打开时播放音效
         AudioManager.Instance?.PlayboxSound();
-        stats.defense.AddModifier(10);       
+        stats.defense.AddModifier(15);
+        stats.maxHP.AddModifier(150);
+        stats.currentHP += 150;       
         Timer = 2f;
         tip.SetActive(true);
     }

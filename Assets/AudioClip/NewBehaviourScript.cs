@@ -141,22 +141,22 @@ public class AudioManager : MonoBehaviour
         PlaySFX(wallJumpSound);
     }
 
-  public void PlayWalkSound()
-{
-    if (!isWalking)
+    public void PlayWalkSound()
     {
-        isWalking = true;
-        
-        // 直接播放，不依赖条件检查
-        if (walkSound != null && sfxSource != null)
+        if (!isWalking)
         {
-            sfxSource.clip = walkSound;
-            sfxSource.volume = 0.6f * sfxVolume * masterVolume;
-            sfxSource.loop = true;
-            sfxSource.Play();
+            isWalking = true;
+
+            // 直接播放，不依赖条件检查
+            if (walkSound != null && sfxSource != null)
+            {
+                sfxSource.clip = walkSound;
+                sfxSource.volume = 0.6f * sfxVolume * masterVolume;
+                sfxSource.loop = true;
+                sfxSource.Play();
+            }
         }
     }
-}
 
     public void StopWalkSound()
     {
@@ -223,7 +223,7 @@ public class AudioManager : MonoBehaviour
         PlaySFX(swordAimSound);
     }
 
-        public void PlayboxSound()
+    public void PlayboxSound()
     {
         PlaySFX(boxSound);
     }
@@ -271,4 +271,6 @@ public class AudioManager : MonoBehaviour
         }
     }
     #endregion
+    
+    
 }
