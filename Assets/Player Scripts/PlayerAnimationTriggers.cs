@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerAnimationTriggers : MonoBehaviour
 {
-    private Player player=> GetComponentInParent<Player>();
+    private Player player => GetComponentInParent<Player>();
     private void AnimationTrigger()
     {
         player.AnimationTrigger();
@@ -12,17 +12,21 @@ public class PlayerAnimationTriggers : MonoBehaviour
     private void AttackTrigger()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackOccur.position, player.attackOccurRedius);
-        foreach(var hit in colliders)
+        foreach (var hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)
             {
                 EnemyStats enemyStas = hit.GetComponent<EnemyStats>();
-                player.stats.DoDamage(enemyStas);                
+                player.stats.DoDamage(enemyStas);
             }
         }
     }
     private void ThrowSword()
     {
-        SkillManager.instance.sword.CreateSword();       
+        SkillManager.instance.sword.CreateSword();
+    }
+    private  void DeathUI()
+    {
+        SceneManager.LoadScene(2);
     }
 }

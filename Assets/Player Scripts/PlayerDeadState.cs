@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerDeadState : PlayerState
+
 {
     public PlayerDeadState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
@@ -11,7 +12,7 @@ public class PlayerDeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        
+
         // 播放死亡音效
         AudioManager.Instance?.PlayDeathSound();
     }
@@ -26,4 +27,6 @@ public class PlayerDeadState : PlayerState
         base.Update();
         player.ZeroVelocity();
     }
-}
+   
+
+    }
