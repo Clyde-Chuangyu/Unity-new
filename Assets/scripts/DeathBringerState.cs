@@ -172,19 +172,19 @@ public class DeathBringerDeadState : EnemyState
     {
         base.Enter();
 
-        enemy.animator.SetBool(enemy.lastAnimBoolName, true); // 使用animator代替anim
-        enemy.animator.speed = 0;
-        enemy.capsule.enabled = false; // 使用capsule代替cd
-
-        stateTimer = .15f;
+    // 1. 播放特定的死亡动画而不是使用lastAnimBoolName
+    enemy.animator.SetTrigger("Die"); 
+    
+   
+    
+    ;
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (stateTimer > 0)
-            rb.velocity = new Vector2(0, 10);
+    
     }
 }
 
