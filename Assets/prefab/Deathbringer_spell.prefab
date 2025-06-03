@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   check: {fileID: 8630617681809079474}
-  boxSize: {x: 5, y: 5}
+  boxSize: {x: 2, y: 3}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 8

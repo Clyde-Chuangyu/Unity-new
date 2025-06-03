@@ -90,17 +90,17 @@ public class DeathBringerBattleState : EnemyState
             }
         }
 
-        // 决定移动方向
+        //决定移动方向
         if (player.position.x > enemy.transform.position.x)
             moveDir = 1;
-        else if (player.position.x < enemy.transform.position.x)
-            moveDir = -1;
+        else
+        moveDir = -1;
 
-        // 如果已经很近了就不要移动
-        if (playerDetected && playerDetected.distance < enemy.attackCheckDistance - .1f)
-            return;
+        //如果已经很近了就不要移动
+        if (playerDetected && playerDetected.distance < enemy.attackCheckDistance - .5f){
+            return; }
 
-        // 移动
+         //移动
         enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
     }
 
