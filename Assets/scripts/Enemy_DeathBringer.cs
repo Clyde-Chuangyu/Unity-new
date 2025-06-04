@@ -13,7 +13,7 @@ public class Enemy_DeathBringer : DeathBringerAdapter
     public DeathBringerTeleportState teleportState { get; private set; }
     #endregion
 
-    public bool bossFightBegun;
+    public bool bossFightBegun=false;
 
     [Header("Spell cast details")]
     [SerializeField] private GameObject spellPrefab;
@@ -40,7 +40,7 @@ public class Enemy_DeathBringer : DeathBringerAdapter
         idleState = new DeathBringerIdleState(this, stateMachine, "Idle", this);
         battleState = new DeathBringerBattleState(this, stateMachine, "Move", this);
         attackState = new DeathBringerAttackState(this, stateMachine, "Attack", this);
-        deadState = new DeathBringerDeadState(this, stateMachine, "Idle", this);
+        deadState = new DeathBringerDeadState(this, stateMachine, "Dead", this);
         spellCastState = new DeathBringerSpellCastState(this, stateMachine, "SpellCast", this);
         teleportState = new DeathBringerTeleportState(this, stateMachine, "Teleport", this);
     }
@@ -178,6 +178,8 @@ public class Enemy_DeathBringer : DeathBringerAdapter
         MakeTransparent(false);
     }
     
+    // 添加到Enemy_DeathBringer类中
+
     // 如果需要反击系统，可以实现这些方法
     public void OpenCounterAttackWindow()
     {

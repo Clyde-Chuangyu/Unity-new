@@ -32,8 +32,8 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioClip boxSound;
 
-    [Header("背景音乐")]
-    [SerializeField] private AudioClip backgroundMusic;
+    [Header("胜利音效")]
+    [SerializeField] private AudioClip VictoryMusic;
 
     [Header("音量设置")]
     [Range(0f, 1f)] public float masterVolume = 1f;
@@ -68,11 +68,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        PlayBackgroundMusic();
-    }
-
+ 
     #region 音效播放方法
     /// <summary>
     /// 播放音效
@@ -212,7 +208,10 @@ public class AudioManager : MonoBehaviour
     {
         PlaySFX(swordThrowSound);
     }
-
+  public void PlayVictoryMusic()
+    {
+        PlaySFX(VictoryMusic);
+    }
     public void PlaySwordCatchSound()
     {
         PlaySFX(swordCatchSound);
@@ -229,24 +228,7 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
-    #region 背景音乐
-    public void PlayBackgroundMusic()
-    {
-        if (backgroundMusic != null && musicSource != null)
-        {
-            musicSource.clip = backgroundMusic;
-            musicSource.volume = musicVolume * masterVolume;
-            musicSource.Play();
-        }
-    }
-
-    public void StopBackgroundMusic()
-    {
-        if (musicSource != null)
-        {
-            musicSource.Stop();
-        }
-    }
+    
 
     public void SetMusicVolume(float volume)
     {
@@ -270,7 +252,7 @@ public class AudioManager : MonoBehaviour
             musicSource.volume = musicVolume * masterVolume;
         }
     }
-    #endregion
+   
     
     
 }

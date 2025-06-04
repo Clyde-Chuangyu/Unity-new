@@ -95,6 +95,7 @@ public class DeathBringerBattleState : EnemyState
             moveDir = 1;
         else
         moveDir = -1;
+        
 
         //如果已经很近了就不要移动
         if (playerDetected && playerDetected.distance < enemy.attackCheckDistance - .5f){
@@ -172,8 +173,8 @@ public class DeathBringerDeadState : EnemyState
     {
         base.Enter();
 
-    // 1. 播放特定的死亡动画而不是使用lastAnimBoolName
-    enemy.animator.SetTrigger("Die"); 
+   
+    enemy.animator.SetBool("Dead",true ); 
     
    
     
